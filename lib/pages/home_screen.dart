@@ -1,6 +1,7 @@
+import 'package:app_movie_final/pages/MovieDetailScreen.dart';
+import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_movie_final/providers/movie_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -56,71 +57,86 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Column(
-    children: [
-        Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-        onChanged: (value) => Provider.of<MovieProvider>(context, listen: false).fetchMovies(value),
-        decoration: InputDecoration(
-        labelText: 'Search Movies',
-        border: OutlineInputBorder(),
-        suffixIcon: Icon(Icons.search),
-        ),
-        ),
-        ),
-    Expanded(
-    child: Consumer<MovieProvider>(
-    builder: (context, provider, child) {
-    return GridView.builder(
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    childAspectRatio: 0.7,
-    ),
-    itemCount: provider.movies.length,
-    itemBuilder: (context, index) {
-    final movie = provider.movies[index];
-    return Card(
-    clipBehavior: Clip.antiAlias,
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-    Image.network(
-    movie.poster,
-    fit: BoxFit.cover,
-    width: double.infinity,
-    height: 200,
-    errorBuilder: (context, error, stackTrace) => Container(
-    height: 200,
-    color: Colors.grey,
-    child: Center(
-    child: Icon(Icons.error, color: Colors.red),
-    ),
-    ),
-    ),
-    Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Text(
-    movie.title,
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    ),
-    maxLines: 1,
-    overflow: TextOverflow.ellipsis,
-    ),
-    ),
-    Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-        child: Text('${movie.year} (${movie.type})'),
-        ),
-     ],
-      ),
-    );
-      },
-    );
-    },
-    ),
-    ),
-    ],
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) =>
+                  Provider.of<MovieProvider>(context, listen: false)
+                      .fetchMovies(value),
+              decoration: InputDecoration(
+                labelText: 'Search Movies',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Consumer<MovieProvider>(
+              builder: (context, provider, child) {
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: provider.movies.length,
+                  itemBuilder: (context, index) {
+                    final movie = provider.movies[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MovieDetailsScreen(imdbId: movie.imdbID),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Image.network(
+                              movie.poster,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 200,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                height: 200,
+                                color: Colors.grey,
+                                child: Center(
+                                  child: Icon(Icons.error, color: Colors.red),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                movie.title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 8.0),
+                              child: Text('${movie.year} (${movie.type})'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

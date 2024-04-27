@@ -1,6 +1,7 @@
 import 'package:app_movie_final/pages/favorites_screen.dart';
 import 'package:app_movie_final/pages/home_screen.dart';
 import 'package:app_movie_final/pages/login_screen.dart';
+import 'package:app_movie_final/providers/movie_details_provider.dart';
 import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MovieProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MovieProvider(),),
+        ChangeNotifierProvider(create: (context) => MovieDetailsProvider()),
+      ],
       child: MaterialApp(
         title: 'Movie Search App',
         theme: ThemeData(

@@ -2,16 +2,17 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => LoginScreenState();
+  State<RegisterScreen> createState() => RegisterScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class RegisterScreenState extends State<RegisterScreen> {
   var usernames;
   var password;
+  var email;
   @override
   GlobalKey<FormState> formstate = new GlobalKey();
 
@@ -24,6 +25,8 @@ class LoginScreenState extends State<LoginScreen> {
         formdata.save();
         // ignore: avoid_print
         print("username: $usernames");
+        // ignore: avoid_print
+        print("username: $email");
         // ignore: avoid_print
         print("password: $password");
       } else {
@@ -62,7 +65,7 @@ class LoginScreenState extends State<LoginScreen> {
                     "Welcome To Netflexy",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  Text("Enter your credential to login"),
+                  Text("Enter your credential to Register"),
                 ],
               ),
               Column(
@@ -104,6 +107,40 @@ class LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 10),
                   TextFormField(
                     onSaved: (text) {
+                      email = text;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Write your email please",
+                      hintStyle: TextStyle(
+                          color: const Color.fromARGB(31, 249, 247, 247),
+                          fontSize: 20),
+                      hintMaxLines: 2,
+                      prefixIcon: Icon(Icons.email_outlined),
+                      labelText: "Email",
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                      ),
+                      filled: false,
+                      fillColor: Color.fromARGB(255, 227, 27, 27),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
+                    validator: (text) {
+                      if (text == null || text.trim().isEmpty) {
+                        return "Email can't be empty";
+                      }
+                      if (text.trim().length < 2) {
+                        return "Email can't be less than 2 characters";
+                      }
+                      return null;
+                    },
+                  ),
+                  // ignore: prefer_const_constructors
+                  SizedBox(height: 10),
+                  TextFormField(
+                    onSaved: (text) {
                       password = text;
                     },
                     obscureText: true,
@@ -114,7 +151,7 @@ class LoginScreenState extends State<LoginScreen> {
                         fontSize: 20,
                       ),
                       hintMaxLines: 2,
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock_clock_outlined),
                       labelText: "password",
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -145,7 +182,7 @@ class LoginScreenState extends State<LoginScreen> {
                       backgroundColor: Color.fromARGB(255, 158, 20, 20),
                     ),
                     child: Text(
-                      "Login",
+                      "Register",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -166,8 +203,7 @@ class LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text("Dont have an account? "),
                   TextButton(
-                      onPressed: () {
-            },
+                      onPressed: () {},
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(

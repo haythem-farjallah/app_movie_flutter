@@ -1,6 +1,7 @@
 import 'package:app_movie_final/pages/favorites_screen.dart';
 import 'package:app_movie_final/pages/home_screen.dart';
 import 'package:app_movie_final/pages/login_screen.dart';
+import 'package:app_movie_final/pages/register_screen.dart';
 import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +37,10 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/register',
         routes: {
           '/': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),
           '/home': (context) => HomeScreen(),
           '/favorites': (context) => FavoritesScreen(),
         },

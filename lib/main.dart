@@ -28,9 +28,12 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.cyan[600],
           fontFamily: 'Georgia',
           appBarTheme: AppBarTheme(
-            backgroundColor: Colors.red,
+            backgroundColor: const Color.fromARGB(171, 0, 0, 0),
             foregroundColor: Colors.white,
             elevation: 5,
+            centerTitle: true,
+            
+            
           ),
           textTheme: TextTheme(
             displayLarge:
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/home',
         routes: {
           '/': (context) => LoginScreen(),
           '/home': (context) => HomeScreen(),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:app_movie_final/providers/movie_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:  Drawer(
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -23,15 +25,13 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context); // Closes the drawer
-              },
+              onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: Icon(Icons.favorite),
               title: Text('Favorites'),
               onTap: () {
-                Navigator.pop(context); // Closes the drawer
+                Navigator.pop(context);
                 Navigator.pushNamed(context, '/favorites');
               },
             ),
@@ -39,8 +39,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
               onTap: () {
-                // Handle user logout here
-                Navigator.pop(context); // Closes the drawer
+                Navigator.pop(context);
                 Navigator.pushReplacementNamed(context, '/');
               },
             ),
@@ -52,13 +51,77 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.pushNamed(context, '/favorites');
-            },
-          )
+            onPressed: () => Navigator.pushNamed(context, '/favorites'),
+          ),
         ],
       ),
-      body: Center(child: Text("Search and display results here")),
+      body: Column(
+    children: [
+        Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+        onChanged: (value) => Provider.of<MovieProvider>(context, listen: false).fetchMovies(value),
+        decoration: InputDecoration(
+        labelText: 'Search Movies',
+        border: OutlineInputBorder(),
+        suffixIcon: Icon(Icons.search),
+        ),
+        ),
+        ),
+    Expanded(
+    child: Consumer<MovieProvider>(
+    builder: (context, provider, child) {
+    return GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2, // Number of columns in the grid
+    childAspectRatio: 0.7, // Aspect ratio of each grid cell
+    ),
+    itemCount: provider.movies.length,
+    itemBuilder: (context, index) {
+    final movie = provider.movies[index];
+    return Card(
+    clipBehavior: Clip.antiAlias, // Add this for better UI
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+    Image.network(
+    movie.poster,
+    fit: BoxFit.cover,
+    width: double.infinity,
+    height: 200,
+    errorBuilder: (context, error, stackTrace) => Container(
+    height: 200,
+    color: Colors.grey,
+    child: Center(
+    child: Icon(Icons.error, color: Colors.red),
+    ),
+    ),
+    ),
+    Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(
+    movie.title,
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    ),
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
+    ),
+    ),
+    Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+        child: Text('${movie.year} (${movie.type})'),
+        ),
+     ],
+      ),
+    );
+      },
+    );
+    },
+    ),
+    ),
+    ],
+      ),
     );
   }
 }

@@ -10,15 +10,11 @@ class MovieProvider with ChangeNotifier {
   List<Movie> get movies => _movies;
 
   Future<void> fetchMovies(String query) async {
-    if (query.isEmpty) {
-      _movies = [];
-      notifyListeners();
-      return;
-    }
-
     final String apiKey = '7e3b5a28';
-    final String url = 'http://www.omdbapi.com/?s=$query&apikey=$apiKey';
-
+    String url = 'http://www.omdbapi.com/?s=$query&apikey=$apiKey';
+    if (query.isEmpty || query.length < 3) {
+      url = 'http://www.omdbapi.com/?s=star&apikey=$apiKey';
+    }
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

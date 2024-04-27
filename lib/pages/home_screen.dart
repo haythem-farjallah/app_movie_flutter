@@ -3,7 +3,25 @@ import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = "Star Wars"; // Default search term
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Fetch movies as soon as the widget is built and rendered
+      Provider.of<MovieProvider>(context, listen: false)
+          .fetchMovies(_controller.text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +79,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              controller: _controller,
               onChanged: (value) =>
                   Provider.of<MovieProvider>(context, listen: false)
                       .fetchMovies(value),

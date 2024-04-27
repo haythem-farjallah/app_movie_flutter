@@ -6,12 +6,8 @@ import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 void main() {
-  runApp(
-      MyApp()
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => MovieProvider(),),
+        ChangeNotifierProvider(
+          create: (context) => MovieProvider(),
+        ),
         ChangeNotifierProvider(create: (context) => MovieDetailsProvider()),
       ],
       child: MaterialApp(
@@ -35,7 +33,8 @@ class MyApp extends StatelessWidget {
             elevation: 5,
           ),
           textTheme: TextTheme(
-            displayLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            displayLarge:
+                TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
             titleLarge: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),

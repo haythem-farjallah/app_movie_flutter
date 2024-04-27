@@ -73,14 +73,14 @@ class HomeScreen extends StatelessWidget {
     builder: (context, provider, child) {
     return GridView.builder(
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2, // Number of columns in the grid
-    childAspectRatio: 0.7, // Aspect ratio of each grid cell
+    crossAxisCount: 2,
+    childAspectRatio: 0.7,
     ),
     itemCount: provider.movies.length,
     itemBuilder: (context, index) {
     final movie = provider.movies[index];
     return Card(
-    clipBehavior: Clip.antiAlias, // Add this for better UI
+    clipBehavior: Clip.antiAlias,
     child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[

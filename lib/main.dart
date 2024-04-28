@@ -1,6 +1,8 @@
 import 'package:app_movie_final/pages/favorites_screen.dart';
 import 'package:app_movie_final/pages/home_screen.dart';
 import 'package:app_movie_final/pages/login_screen.dart';
+import 'package:app_movie_final/pages/profileEditScreen.dart';
+import 'package:app_movie_final/pages/profileScreen.dart';
 import 'package:app_movie_final/providers/movie_details_provider.dart';
 import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +44,11 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/home',
+        initialRoute: '/edit',
         routes: {
           '/': (context) => LoginScreen(),
+          '/profile': (context) => ProfileScreen(),
+          '/edit': (context) => ProfileEditScreen(),
           '/home': (context) => HomeScreen(),
           '/favorites': (context) => FavoritesScreen(),
         },

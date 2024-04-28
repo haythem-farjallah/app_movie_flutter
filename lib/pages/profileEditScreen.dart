@@ -129,7 +129,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                         fontSize: 20,
                       ),
                       hintMaxLines: 2,
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.email),
                       labelText: "Email",
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,

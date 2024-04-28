@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.red,
               ),
               child: Text(
                 'Menu',
@@ -66,10 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       appBar: AppBar(
-        title: Text("Home"),
+        title: Image.asset("images/netflix.png",
+            width: 100), // Set the desired width
+        // Set the desired height
+      
         actions: [
           IconButton(
-            icon: Icon(Icons.favorite),
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.red,
+            ),
             onPressed: () => Navigator.pushNamed(context, '/favorites'),
           ),
         ],
@@ -77,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20),
             child: TextField(
               controller: _controller,
               onChanged: (value) =>
@@ -85,6 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       .fetchMovies(value),
               decoration: InputDecoration(
                 labelText: 'Search Movies',
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat',
+                ),
+                fillColor: Color.fromARGB(255, 227, 27, 27),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                ),
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.search),
               ),
@@ -143,8 +157,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 8.0),
-                              child: Text('${movie.year} (${movie.type})'),
+                                  left: 8.0, right: 8.0),
+                              child: Text(
+                                '${movie.year} (${movie.type})',
+                                style: TextStyle(color: Colors.red),
+                              ),
                             ),
                           ],
                         ),

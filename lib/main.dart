@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/home',
         routes: {
           '/': (context) => LoginScreen(),
           '/home': (context) => HomeScreen(),

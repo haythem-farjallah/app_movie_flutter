@@ -1,6 +1,8 @@
 import 'package:app_movie_final/pages/favorites_screen.dart';
 import 'package:app_movie_final/pages/home_screen.dart';
 import 'package:app_movie_final/pages/login_screen.dart';
+import 'package:app_movie_final/pages/profileEditScreen.dart';
+import 'package:app_movie_final/pages/profileScreen.dart';
 import 'package:app_movie_final/pages/register_screen.dart';
 import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:app_movie_final/providers/movie_details_provider.dart';
@@ -53,10 +55,12 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/register',
+        initialRoute: '/home',
         routes: {
           '/': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
+          "/edit": (context) => ProfileEditScreen(),
+          '/profile': (context) => const ProfileScreen(),
           '/register': (context) => const RegisterScreen(),
           '/favorites': (context) => const FavoritesScreen(),
         },

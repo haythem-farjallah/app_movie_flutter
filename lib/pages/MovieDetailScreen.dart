@@ -13,29 +13,56 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  double doubleRating = 0; // Default rating
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() =>
         Provider.of<MovieDetailsProvider>(context, listen: false)
-            .fetchMovieDetails(widget.imdbId));
+            .fetchMovieDetails(widget.imdbId)).then((_) {
+      if (mounted) {
+        updateRating();
+      }
+    });
+  }
+
+  void updateRating() {
+    var provider = Provider.of<MovieDetailsProvider>(context, listen: false);
+    var details = provider.movieDetails;
+
+    if (details != null && details.containsKey('Ratings')) {
+      var ratingsList = details['Ratings'] as List<dynamic>;
+      var imdbRating = ratingsList.firstWhere(
+        (rating) => rating['Source'] == 'Internet Movie Database',
+        orElse: () => null,
+      );
+
+      if (imdbRating != null && imdbRating.containsKey('Value')) {
+        String ratingValue = imdbRating['Value'];
+        try {
+          double parsedRating = double.parse(ratingValue.split('/').first);
+          setState(() {
+            doubleRating = parsedRating / 2; // Converting to a scale of 1 to 5
+          });
+        } catch (e) {
+          debugPrint('Error parsing rating: $e');
+        }
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-
+    var provider = Provider.of<MovieDetailsProvider>(context);
+    var details = provider.movieDetails ?? {};
     return Scaffold(
       appBar: AppBar(
         title: Image.asset("images/netflix.png", width: 100),
       ),
       body: Consumer<MovieDetailsProvider>(
         builder: (context, provider, child) {
-          var details = provider.movieDetails;
-          var ratings = details["Ratings"].firstWhere((rating) =>
-              rating["Source"] == "Internet Movie Database")["Value"];
-          var doubleRating = double.parse(ratings.split("/").first) / 2;
-          print(doubleRating.toInt());
           if (provider.isLoading) {
             return Center(child: CircularProgressIndicator());
           }

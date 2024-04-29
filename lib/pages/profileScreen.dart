@@ -127,7 +127,8 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () =>
+                      {Navigator.pushReplacementNamed(context, '/edit')},
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 224, 17, 17),
                       side: BorderSide.none,
@@ -146,7 +147,11 @@ class ProfileScreen extends StatelessWidget {
 
               /// -- MENU
               ProfileMenuWidget(
-                  title: "Settings", icon: Icons.settings, onPress: () {}),
+                  title: "Settings",
+                  icon: Icons.settings,
+                  onPress: () {
+                    Navigator.pushReplacementNamed(context, '/home');
+                  }),
               ProfileMenuWidget(
                   title: "Logout", icon: Icons.logout, onPress: () {}),
             ],

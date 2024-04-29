@@ -17,7 +17,7 @@ class MovieDetailsProvider with ChangeNotifier {
   Future<void> fetchMovieDetails(String imdbId) async {
     _isLoading = true;
     notifyListeners();
-    final String apiKey = '7e3b5a28';
+    const String apiKey = '7e3b5a28';
     final String url = 'http://www.omdbapi.com/?i=$imdbId&apikey=$apiKey';
 
     print("Requesting: $url");

@@ -10,7 +10,7 @@ class MovieProvider with ChangeNotifier {
   List<Movie> get movies => _movies;
 
   Future<void> fetchMovies(String query) async {
-    final String apiKey = '7e3b5a28';
+    const String apiKey = '7e3b5a28';
     String url = 'http://www.omdbapi.com/?s=$query&apikey=$apiKey';
     if (query.isEmpty || query.length < 3) {
       url = 'http://www.omdbapi.com/?s=star&apikey=$apiKey';
@@ -34,7 +34,7 @@ class MovieProvider with ChangeNotifier {
       print('Error fetching movies: $error');
       _movies = [];
       notifyListeners();
-      throw error;
+      rethrow;
     }
   }
 }

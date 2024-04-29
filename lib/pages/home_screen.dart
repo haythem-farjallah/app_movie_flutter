@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -29,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.red,
               ),
@@ -42,21 +44,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favorites'),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favorites'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/favorites');
               },
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Logout'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context, '/');
@@ -72,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.favorite,
               color: Colors.red,
             ),
@@ -89,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onChanged: (value) =>
                   Provider.of<MovieProvider>(context, listen: false)
                       .fetchMovies(value),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search Movies',
                 labelStyle: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -108,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Consumer<MovieProvider>(
               builder: (context, provider, child) {
                 return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.7,
                   ),
@@ -139,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Container(
                                 height: 200,
                                 color: Colors.grey,
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.error, color: Colors.red),
                                 ),
                               ),
@@ -148,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 movie.title,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                                 maxLines: 1,
@@ -160,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   left: 8.0, right: 8.0),
                               child: Text(
                                 '${movie.year} (${movie.type})',
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                               ),
                             ),
                           ],

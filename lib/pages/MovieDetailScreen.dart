@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class MovieDetailsScreen extends StatefulWidget {
   final String imdbId;
 
-  MovieDetailsScreen({required this.imdbId});
+  const MovieDetailsScreen({super.key, required this.imdbId});
 
   @override
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
@@ -24,26 +24,26 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Movie Details'),
+        title: const Text('Movie Details'),
       ),
       body: Consumer<MovieDetailsProvider>(
         builder: (context, provider, child) {
           var details = provider.movieDetails;
           if (provider.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           return SingleChildScrollView(
             child: Column(
               children: [
                 Image.network(details['Poster'], fit: BoxFit.cover),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(details['Title'],
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(details['Plot']),
                 ),
               ],

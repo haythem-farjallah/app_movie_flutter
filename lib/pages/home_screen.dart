@@ -49,6 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
+              leading: const Icon(Icons.verified_user),
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/profile');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.favorite),
               title: const Text('Favorites'),
               onTap: () {

@@ -9,16 +9,8 @@ import 'package:app_movie_final/providers/movie_details_provider.dart';
 import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Supabase.initialize(
-    url: 'https://jkxwtvgivbfmzauktxjy.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpreHd0dmdpdmJmbXphdWt0eGp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzMTQ2NDksImV4cCI6MjAyOTg5MDY0OX0.LIXUYSxITLIJi9pNU2MUGRGTJ6iNBjq5j8T7nqfly6o',
-  );
+main() async {
   runApp(const MyApp());
 }
 
@@ -55,7 +47,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/home',
+        initialRoute: '/register',
         routes: {
           '/': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),

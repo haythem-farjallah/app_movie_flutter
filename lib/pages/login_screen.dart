@@ -22,8 +22,8 @@ class LoginScreenState extends State<LoginScreen> {
       if (formData != null && formData.validate()) {
         formData.save();
         bool result = await Provider.of<AuthProvider>(context, listen: false)
-            .signIn(email, password);
-        print(result);
+            .login(email, password);
+
         if (result) {
           Navigator.pushReplacementNamed(context, '/home');
         } else {
@@ -87,7 +87,7 @@ class LoginScreenState extends State<LoginScreen> {
                             fontSize: 20),
                         hintMaxLines: 2,
                         prefixIcon: Icon(Icons.account_circle_outlined),
-                        labelText: "username",
+                        labelText: "Email",
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Montserrat',
@@ -176,7 +176,9 @@ class LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Text("Dont have an account? "),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/register');
+                        },
                         child: const Text(
                           "Sign Up",
                           style: TextStyle(

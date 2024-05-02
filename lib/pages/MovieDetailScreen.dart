@@ -1,4 +1,5 @@
 import 'package:app_movie_final/providers/movie_details_provider.dart';
+import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
-  double doubleRating = 0; // Default rating
+  double doubleRating = 0.0;
 
   @override
   void initState() {
@@ -43,7 +44,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         try {
           double parsedRating = double.parse(ratingValue.split('/').first);
           setState(() {
-            doubleRating = parsedRating / 2; // Converting to a scale of 1 to 5
+            doubleRating =
+                (parsedRating / 2); // Converting to a scale of 1 to 5
           });
         } catch (e) {
           debugPrint('Error parsing rating: $e');
@@ -121,7 +123,22 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var provider =
+                          Provider.of<MovieProvider>(context, listen: false);
+                      bool success = await provider.addFavorite(
+                          details['Poster'],
+                          details['Title'],
+                          widget.imdbId,
+                          doubleRating);
+                      if (success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Added to favorites!")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Failed to add to favorites.")));
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 30),

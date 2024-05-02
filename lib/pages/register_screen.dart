@@ -23,10 +23,12 @@ class RegisterScreenState extends State<RegisterScreen> {
       if (formData != null && formData.validate()) {
         formData.save();
         bool success = await Provider.of<AuthProvider>(context, listen: false)
-            .signUp(email, password, usernames);
+            .register(usernames, email, password);
 
         if (success) {
           // If signup is successful, navigate to the login screen
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Registration sucess")));
           Navigator.pushReplacementNamed(context, '/');
         } else {
           // Show an error message or handle the failure
@@ -213,9 +215,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Dont have an account? "),
+                      const Text("Dont you  have an account? "),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/');
+                          },
                           child: const Text(
                             "Sign Up",
                             style: TextStyle(

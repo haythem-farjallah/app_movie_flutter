@@ -1,4 +1,6 @@
+import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget({
@@ -52,12 +54,36 @@ class ProfileMenuWidget extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
+  }
+
+  void _loadUserData() async {
+    try {
+      await Provider.of<AuthProvider>(context, listen: false).loadUserData();
+    } catch (e) {
+      print("Failed to load user data: $e");
+      // Optionally, handle errors e.g., by showing a dialog or toast
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    var authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Image.asset("images/netflix.png", width: 100),
@@ -98,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               Text(
-                "Ahmed Mokni",
+                authProvider.username,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 38,
@@ -107,7 +133,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "mokni.ahmed.am@gmail.com",
+                authProvider.email,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Montserrat',
@@ -115,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "53560362",
+                authProvider.phoneNumber,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Montserrat',

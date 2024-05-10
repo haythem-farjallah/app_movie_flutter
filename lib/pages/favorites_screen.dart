@@ -21,7 +21,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Favorites")),
+      appBar: AppBar(
+        title: Text(
+          "Favorites",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: Colors.red,
+            fontFamily: 'Montserrat',
+          ),
+        ),
+      ),
       body: Consumer<MovieProvider>(
         builder: (context, provider, child) {
           if (provider.favoriteMovies.isEmpty) {
@@ -31,27 +41,49 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             itemCount: provider.favoriteMovies.length,
             itemBuilder: (context, index) {
               final favorite = provider.favoriteMovies[index];
-              return ListTile(
-                leading: Image.network(
-                  favorite.imageUrl,
-                  width: 50,
-                  height: 100,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error),
-                ),
-                title: Text(favorite.title),
-                subtitle: favorite.rating != null
-                    ? Text("Rating: ${favorite.rating}")
-                    : null,
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    // Implement functionality to delete this favorite when needed
+              return Card(
+                child: ListTile(
+                  leading: Image.network(
+                    favorite.imageUrl,
+                    width: 50,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.error),
+                  ),
+                  title: Text(
+                    favorite.title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                  subtitle: favorite.rating != null
+                      ? Text("Rating: ${favorite.rating}",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                            fontFamily: 'Montserrat',
+                          ))
+                      : null,
+                  trailing: Container(
+                    padding: EdgeInsets.all(0),
+                    decoration: new BoxDecoration(
+                      borderRadius: new BorderRadius.circular(100),
+                      color: Color.fromARGB(97, 66, 67, 66),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        // Implement functionality to delete this favorite when needed
+                      },
+                    ),
+                  ),
+                  onTap: () {
+                    // Optional: Implement functionality for tap if needed
                   },
                 ),
-                onTap: () {
-                  // Optional: Implement functionality for tap if needed
-                },
               );
             },
           );

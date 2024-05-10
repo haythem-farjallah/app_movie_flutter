@@ -1,3 +1,4 @@
+import 'package:app_movie_final/pages/sendEmailPass_screen.dart';
 import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -157,6 +158,7 @@ class LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         "Login",
                         style: TextStyle(
+                            color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Montserrat'),
@@ -165,7 +167,13 @@ class LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SendEmailPassScreen()),
+                    )
+                  },
                   child: const Text(
                     "Forgot password?",
                     style: TextStyle(color: Color.fromARGB(255, 200, 186, 186)),

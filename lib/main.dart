@@ -7,6 +7,7 @@ import 'package:app_movie_final/pages/profileEditScreen.dart';
 import 'package:app_movie_final/pages/profileScreen.dart';
 import 'package:app_movie_final/pages/register_screen.dart';
 import 'package:app_movie_final/pages/sendEmailPass_screen.dart';
+import 'package:app_movie_final/pages/splash_screen.dart';
 import 'package:app_movie_final/pages/verifyCode_screen.dart';
 import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:app_movie_final/providers/movie_details_provider.dart';
@@ -51,9 +52,10 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
-        initialRoute: '/newpass',
+        initialRoute: '/splash',
         routes: {
           '/': (context) => const LoginScreen(),
+          "/splash": (context) => const SplashScreen(),
           '/landing': (context) => const LandingScreen(),
           '/email': (context) => const SendEmailPassScreen(),
           '/code': (context) => const VerifyCodeScreen(),

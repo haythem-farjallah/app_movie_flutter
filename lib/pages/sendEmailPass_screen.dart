@@ -21,14 +21,19 @@ class SendEmailPassScreenState extends State<SendEmailPassScreen> {
       var formData = formstate.currentState;
       if (formData != null && formData.validate()) {
         formData.save();
-        bool result = await Provider.of<AuthProvider>(context, listen: false)
-            .login(email, password);
+        if (email != null && email.isNotEmpty) {
+          bool result = await Provider.of<AuthProvider>(context, listen: false)
+              .sendForgetPasswordEmail(email);
 
-        if (result) {
-          Navigator.pushReplacementNamed(context, '/home');
+          if (result) {
+            Navigator.pushNamed(context, '/code');
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Failed to send email")));
+          }
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("error")));
+              .showSnackBar(SnackBar(content: Text("Email cannot be empty")));
         }
       } else {
         ScaffoldMessenger.of(context)

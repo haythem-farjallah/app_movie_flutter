@@ -14,7 +14,8 @@ class AuthProvider with ChangeNotifier {
   String get token => _token;
 
   Future<bool> login(String email, String password) async {
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/users/login');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/login');
     print({'email': email, 'password': password});
     try {
       var response = await http.post(
@@ -53,7 +54,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> register(String username, String email, String password) async {
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/users/signup');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/signup');
     print({'username': username, 'email': email, 'password': password});
     try {
       var response = await http.post(
@@ -92,6 +94,15 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token'); // Retrieve the login token
+    _isLoggedIn = token != null &&
+        token
+            .isNotEmpty; // If token is not null or empty, user is considered logged in
+    notifyListeners(); // Notify listeners about change in login state
+  }
+
   String _username = '';
   String _email = '';
   String _phoneNumber = 'No phone number';
@@ -123,7 +134,8 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
 
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/users/update-profile');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/update-profile');
     Map<String, dynamic> dataToUpdate = {};
     if (username != null) dataToUpdate['username'] = username;
     if (email != null) dataToUpdate['email'] = email;
@@ -157,14 +169,74 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> performAuthenticatedRequest(String apiUrl) async {
-    var url = Uri.parse(apiUrl);
+  Future<bool> sendForgetPasswordEmail(String email) async {
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/sendEmail');
+
     try {
-      var response =
-          await http.get(url, headers: {'Authorization': 'Bearer $_token'});
-      // Handle your response here
+      var response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'email': email,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Handle success
+        return true;
+      } else {
+        // Handle failure
+        print('Failed to send email: ${response.body}');
+        return false;
+      }
     } catch (e) {
-      throw Exception('Failed to make authenticated request');
+      print('Error sending email: $e');
+      return false;
+    }
+  }
+
+  Future<bool> verifyCode(String code) async {
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/verify');
+    try {
+      var response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'code': code}),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to verify code: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error verifying code: $e');
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(String newPassword, String code) async {
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/users/forgetpassword');
+    try {
+      var response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'password': newPassword, 'code': code}),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to reset password: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error resetting password: $e');
+      return false;
     }
   }
 }

@@ -43,7 +43,8 @@ class MovieProvider with ChangeNotifier {
 
   Future<bool> addFavorite(
       String imageUrl, String title, String imdbID, double rating) async {
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/favorite/add');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/favorite/add');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -84,7 +85,8 @@ class MovieProvider with ChangeNotifier {
 
   Future<bool> deleteFavorite(String imdbID) async {
     // Construct the URL with the imdbID as a path parameter
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/favorite/delete:$imdbID');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/favorite/delete/$imdbID');
 
     // Retrieve the stored token from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -124,7 +126,8 @@ class MovieProvider with ChangeNotifier {
   }
 
   Future<void> fetchFavorites() async {
-    var url = Uri.parse('http://10.0.2.2:8000/api/v1/favorite/all');
+    var url = Uri.parse(
+        'https://movieappbackend-e497.onrender.com/api/v1/favorite/all');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 

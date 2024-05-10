@@ -1,6 +1,7 @@
 import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
@@ -22,15 +23,31 @@ class NewPasswordScreenState extends State<NewPasswordScreen> {
       var formData = formstate.currentState;
       if (formData != null && formData.validate()) {
         formData.save();
-        // bool result = await Provider.of<AuthProvider>(context, listen: false)
-        //     .login(email, password);
+        if (password != confirmPassword) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Passwords do not match")));
+          return;
+        }
 
-        // if (result) {
-        //   Navigator.pushReplacementNamed(context, '/home');
-        // } else {
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text("error")));
-        // }
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? code = prefs.getString('verifiedCode');
+        if (code == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Verification code is missing")));
+          return;
+        }
+
+        bool result = await Provider.of<AuthProvider>(context, listen: false)
+            .resetPassword(password, code);
+
+        if (result) {
+          Navigator.pushReplacementNamed(context, '/');
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Password reset successfully. Please login.")));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Failed to reset password. Please try again.")));
+        }
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Form is not valid")));
@@ -81,6 +98,7 @@ class NewPasswordScreenState extends State<NewPasswordScreen> {
                       onSaved: (text) {
                         password = text;
                       },
+                      obscureText: true,
                       decoration: const InputDecoration(
                         hintText: "Write your password please",
                         hintStyle: TextStyle(
@@ -113,6 +131,7 @@ class NewPasswordScreenState extends State<NewPasswordScreen> {
                       onSaved: (text) {
                         confirmPassword = text;
                       },
+                      obscureText: true,
                       decoration: const InputDecoration(
                         hintText: "Write your confirmPassword please",
                         hintStyle: TextStyle(

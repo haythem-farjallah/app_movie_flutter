@@ -179,7 +179,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.pushReplacementNamed(context, '/home');
                   }),
               ProfileMenuWidget(
-                  title: "Logout", icon: Icons.logout, onPress: () {}),
+                title: "Logout",
+                icon: Icons.logout,
+                onPress: () async {
+                  await Provider.of<AuthProvider>(context, listen: false)
+                      .logout();
+                  Navigator.pushReplacementNamed(context, '/');
+                },
+              ),
             ],
           ),
         ),

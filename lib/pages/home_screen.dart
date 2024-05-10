@@ -1,4 +1,5 @@
 import 'package:app_movie_final/pages/MovieDetailScreen.dart';
+import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:app_movie_final/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,8 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.exit_to_app),
               title: const Text('Logout'),
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .logout();
                 Navigator.pushReplacementNamed(context, '/');
               },
             ),
@@ -79,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Image.asset("images/netflix.png",
             width: 100), // Set the desired width
         // Set the desired height
-      
+
         actions: [
           IconButton(
             icon: const Icon(
@@ -166,8 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
                               child: Text(
                                 '${movie.year} (${movie.type})',
                                 style: const TextStyle(color: Colors.red),

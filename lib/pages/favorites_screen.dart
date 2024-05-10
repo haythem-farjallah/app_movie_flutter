@@ -75,8 +75,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                     child: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        // Implement functionality to delete this favorite when needed
+                      onPressed: () async {
+                        bool success = await Provider.of<MovieProvider>(context,
+                                listen: false)
+                            .deleteFavorite(favorite.imdbID);
+                        if (success) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text("Favorite removed successfully")),
+                          );
+                          // Update the UI after deleting
+                          Provider.of<MovieProvider>(context, listen: false)
+                              .fetchFavorites();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text("Failed to remove favorite")),
+                          );
+                        }
                       },
                     ),
                   ),

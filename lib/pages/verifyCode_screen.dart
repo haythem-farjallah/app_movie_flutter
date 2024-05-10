@@ -1,6 +1,7 @@
 import 'package:app_movie_final/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
   const VerifyCodeScreen({super.key});
@@ -21,15 +22,19 @@ class VerifyCodeScreenState extends State<VerifyCodeScreen> {
       var formData = formstate.currentState;
       if (formData != null && formData.validate()) {
         formData.save();
-        // bool result = await Provider.of<AuthProvider>(context, listen: false)
-        //     .login(email, password);
+        bool result = await Provider.of<AuthProvider>(context, listen: false)
+            .verifyCode(code);
 
-        // if (result) {
-        //   Navigator.pushReplacementNamed(context, '/home');
-        // } else {
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text("error")));
-        // }
+        if (result) {
+          // Save the verified code in SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('verifiedCode', code); // Save the code
+          Navigator.pushReplacementNamed(context, '/newpass');
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Incorrect code")));
+          Navigator.pushReplacementNamed(context, '/');
+        }
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Form is not valid")));
